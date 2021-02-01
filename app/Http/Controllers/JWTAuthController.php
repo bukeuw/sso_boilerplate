@@ -10,7 +10,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 
-class AuthController extends Controller
+class JWTAuthController extends Controller
 {
     /**
      * Create a new AuthController instance.
@@ -77,7 +77,7 @@ class AuthController extends Controller
             $signatureValid = ($base64UrlSignature === $signatureProvided);
 
             if ($signatureValid) {
-                $user = User::find($jsonData->data->id);
+                $user = User::findOrFail($jsonData->data->id_sso);
                 $newToken = auth()->login($user);
                 return response()->json([
                     'status' => true,
